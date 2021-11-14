@@ -121,14 +121,14 @@ classes = [
     main.AUTOHAIR_OT_Save,
     main.AUTOHAIR_OT_Unlink,
     main.AUTOHAIR_OT_Translate,
-    main.AUTOHAIR_OT_AddCtrlHair,
-    main.AUTOHAIR_OT_RemoveCtrlHair,
 
     main.AUTOHAIR_OT_ShowBraidStart,
     main.AUTOHAIR_OT_ShowBraidEnd,
     main.AUTOHAIR_OT_SetBraidStart,
     main.AUTOHAIR_OT_SetBraidNone,
     main.AUTOHAIR_OT_SetBraidEnd,
+    main.AUTOHAIR_OT_Recalculate,
+    main.AUTOHAIR_OT_RecalculateHair,
     main.AUTOHAIR_PT_Menu,
 ]
 

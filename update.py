@@ -149,27 +149,11 @@ def setFreq(self, context):
     hsys._particleEditMode()
     # hsys._setDepsgpaph()
 
-def setCtrlHair(context, isAddition):
-    hsys = context.scene.hsysCtrl
-    hsys._particleEditMode()
-    hsys._setDepsgpaph()
-    selected = hsys.getSelected() #this causes resetting depsgraph
-    hsys._particleEditMode()
-    hsys._setDepsgpaph()
-    for p in selected.keys():
-        hsys.ctrlHair[p].isCtrl = isAddition
-        if isAddition:
-            if not hsys.ctrlHair[p].keys:
-                for i in range(hsys.hairStep):
-                    hsys.ctrlHair[p].keys.append(hairClass.Key(hsys.psys.particles[p].hair_keys[0].co + mathutils.Vector((0,0,.1*i))))
-            for i in range(hsys.hairStep):
-                hsys.psys.particles[p].hair_keys[i].co = hsys.ctrlHair[p].keys[i].co
-                # print(hsys.psys.particles[p].hair_keys[i].co)
-        else:
-            for i in range(hsys.hairStep):
-                hsys.psys.particles[p].hair_keys[i].co = hsys.psys.particles[p].hair_keys[0].co
-        utils.particleEditNotify()
-        hsys.updateCtrlHair(hsys.ctrlHair[p])
-        hsys._particleEditMode()
-        hsys._setDepsgpaph()
-    hsys.setArrayedChild(selected.keys())
+def setHair(context):
+    obj = bpy.data.objects['HeadModel']
+    if not bpy.context.mode == "PARTICLE":
+        bpy.context.view_layer.objects.active = obj
+        bpy.context.object.particle_systems.active_index = bpy.context.object.particle_systems.find("forMatApply")
+        bpy.ops.particle.particle_edit_toggle()
+    eobj = obj.evaluated_get(context.evaluated_depsgraph_get())
+    context.scene.hsys.setHair(eobj.particle_systems["forMatApply"])

@@ -20,6 +20,7 @@ class TensorClass:
 
         if not bpy.context.mode == "OBJECT":
             bpy.ops.object.mode_set(mode = 'OBJECT')
+        bpy.data.objects['HairGAN:Points'].hide_viewport = False
         bpy.context.view_layer.objects.active = ob = bpy.data.objects['HairGAN:Points']
         bpy.ops.object.mode_set(mode = 'EDIT')
         bpy.ops.mesh.reveal()

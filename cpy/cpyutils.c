@@ -364,8 +364,9 @@ static PyObject * set_key_rotation(PyObject *self, PyObject *args){
     // for(int i=0;i<4;++i){
     //   // printf("%lf\n", kRot1[i]);
     // }
+    // printf("%lf %lf %lf\n", tan[0],tan[1],tan[2]);
     // for(int i=0;i<3;++i){
-    //   // printf("%lf\n", tan[i]);
+    //   printf("%lf\n", tan[i]);
     // }
     
     // return Py_BuildValue("OO", )

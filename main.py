@@ -203,27 +203,28 @@ class AUTOHAIR_OT_SetBraidNone(bpy.types.Operator):
     def execute(self, context):
         context.scene.bTensor.setBraidNone()
         return {'FINISHED'}
+class AUTOHAIR_OT_Recalculate(bpy.types.Operator):
 
-class AUTOHAIR_OT_AddCtrlHair(bpy.types.Operator):
-
-    bl_idname = "autohair.add_ctrl_hair"
-    bl_label = "Add Hair"
-    bl_description = "Add Selected Hair to Control Hair"
+    bl_idname = "autohair.recalculate"
+    bl_label = "Recalculate Vector"
+    bl_description = "Recalculate Vector"
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        update.setCtrlHair(context, True)
+        context.scene.hsys.recalculateVector()
         return {'FINISHED'}
-class AUTOHAIR_OT_RemoveCtrlHair(bpy.types.Operator):
+class AUTOHAIR_OT_RecalculateHair(bpy.types.Operator):
 
-    bl_idname = "autohair.remove_ctrl_hair"
-    bl_label = "Remove Hair"
-    bl_description = "Remove Selected Hair from Control Hair"
+    bl_idname = "autohair.recalculate_hair"
+    bl_label = "Recalculate Hair"
+    bl_description = "Recalculate Hair"
     bl_options = {'REGISTER', 'UNDO'}
 
     def execute(self, context):
-        update.setCtrlHair(context, False)
+        update.setHair(context)
         return {'FINISHED'}
+
+
 
 class AUTOHAIRPanel:
     bl_space_type = 'VIEW_3D'           # パネルを登録するスペース
@@ -248,6 +249,9 @@ class AUTOHAIR_PT_Menu(AUTOHAIRPanel, bpy.types.Panel):
         layout.operator(AUTOHAIR_OT_ShowBraidStart.bl_idname)
         layout.operator(AUTOHAIR_OT_SetBraidNone.bl_idname)
         layout.operator(AUTOHAIR_OT_ShowBraidEnd.bl_idname)
+        layout.separator()
+        layout.operator(AUTOHAIR_OT_Recalculate.bl_idname)
+        layout.operator(AUTOHAIR_OT_RecalculateHair.bl_idname)
         # layout.operator(AUTOHAIR_OT_Unlink.bl_idname)
         layout.separator()
         layout.prop(scene, "autoHairRadius")
@@ -255,3 +259,6 @@ class AUTOHAIR_PT_Menu(AUTOHAIRPanel, bpy.types.Panel):
         layout.prop(scene, "autoHairBraid")
         layout.prop(scene, "autoHairAmp")
         layout.prop(scene, "autoHairFreq")
+        if bpy.context.mode == "PARTICLE":
+            layout.prop(scene.tool_settings.particle_edit, "use_preserve_length")
+            layout.prop(scene.tool_settings.particle_edit, "use_preserve_root")

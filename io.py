@@ -10,7 +10,7 @@ def save(path):
     hc._particleEditMode()
     hc._setDepsgpaph()
     # hairCount , 2 + (3 + 5) * hairStep
-    data = np.zeros((hc.psys.settings.count, 2 + (3 + 5) * (hc.psys.settings.hair_step+1)))
+    data = np.zeros((hc.psys.settings.count, 2 + (3 + 5) * (hc.self.hairStep)))
 
     for i in range(hc.psys.settings.count):
         if ctrlHair[i].isCtrl:
