@@ -150,6 +150,7 @@ class HairSystem:
     def setHair(self,psys):
         # braidHairNum = set()#b |= set(dict.keys())
         braidHairNum = {}
+        braidHairAlreadyAdded = []
 
         for idx, i in enumerate(psys.particles):
             # if idx in braidHairNum:
@@ -158,22 +159,26 @@ class HairSystem:
             braidStart = -1
             braidEnd = -1
             braidStarted = False
-            # breakUsed = False
+            startArrayNum = [] # for not to add same array to braidHairNum multiple times
             for j in range(psys.settings.hair_step): #[j+1] is accessed below, so not +1
                 keyPos = i.hair_keys[j].co
                 a, isBraid = self.getArrayNum(keyPos)
-                if isBraid == 1 and not braidStarted:
-                    braidStart = j
-                    braidStarted = True
-                # elif isBraid == -1:
-                    # braidEnd = j
-                    braidEnd = 48
                 
                 try:
                     orientation = self.Vox[a[0], a[1], a[2],:]
                 except Exception as e:
                     print(e)
                     break
+                
+                if isBraid == 1 and not braidStarted:
+                    braidStart = j
+                    braidStarted = True
+                    braidHairAlreadyAdded.append(a)
+                    startArrayNum = a
+                # elif isBraid == -1:
+                    # braidEnd = j
+                    braidEnd = 48
+                
         #        print(orientation)
                 if not orientation.any(): #when orientation==(0,0,0) remaining keys are positioned at the same position of the latest key.
                     # print("any",j)
@@ -185,7 +190,8 @@ class HairSystem:
                 i.hair_keys[j+1].co = i.hair_keys[j].co + Vector((orientation[0],orientation[1],orientation[2]))*0.01
                 # print("none", i.hair_keys[j+1].co)
             if not braidStart == -1:
-                braidHairNum[idx] = [braidStart, braidEnd]
+                if not startArrayNum in braidHairAlreadyAdded:
+                    braidHairNum[idx] = [braidStart, braidEnd]
         
         # import random
         # for i in psys.particles:
